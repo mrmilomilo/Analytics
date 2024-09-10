@@ -43,9 +43,9 @@ app.get("/events", (request, response) => {
 });
 
 app.get("/eventsByUser/:UserId", (req, res) => {
-	console.log(req.body);
 	const {UserId} = req.params;
 	console.log("printing events with UserID: " );
+	
 	
 	db.get('SELECT * FROM Events WHERE UserId = ?', [UserId], (err, row) => {
 		if (err) {
@@ -59,6 +59,7 @@ app.get("/eventsByUser/:UserId", (req, res) => {
 	});
 	
 });
+
 
 
 app.post("/newevent", (req,res) => {

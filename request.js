@@ -34,9 +34,10 @@ var dummy = {
 const params = new URLSearchParams({
     'UserId': '00000',
 });
-const apiUrl = `http://localhost:3000/eventsByUser?${params}`;
+//eventsByUser?${params}
+const apiUrl = `http://localhost:3000/`;
 fetch(apiUrl)
-    .then((response) => response.json())
+    //.then((response) => response.json())
     .then((data) => {
         console.log(data);
     }).catch(error => {
