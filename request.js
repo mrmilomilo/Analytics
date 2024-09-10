@@ -1,29 +1,10 @@
 var request = require('request');
 
-
-
-// request.get('http://127.0.0.1:3000/status', function (error, response, body) {
-  // console.error('error:', error); // Print the error if one occurred
-  // console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-  // console.log('body:', body); // Print the HTML for the Google homepage.
-// });
-
-
-
-// request.post(
-  // 'http://127.0.0.1:3000/newevent',
-  // json: { EventName: 'Evento1' },
-  
-  // function (error, response, body) {
-      // if (!error && response.statusCode == 200) {
-          // console.log(body);
-      // }
-  // }
-// );
-
+/* EventTags: Progression, SessionStart, Design, Error, Business,... */
 var dummy = {
 	UserId: "00000",
 	EventName: "Evento1",
+	EventTags: ["Progression"], 
 	TimeStamp: Date.now(),
 	Data: "CustomDataField",
 	Location: {
@@ -38,19 +19,49 @@ var dummy = {
 	}
 }
 
-// request.post({
-	// url: 'http://localhost:3000/newevent',
-	// form: dummy
-// }, function(err, resp, body) {
-	// console.log("ERR:" + err + " RESP: " + resp + " BODY: " + body);
+//console.log(JSON.stringify(dummy));
+
+//Retrieve all events list
+// fetch('http://localhost:3000/events')
+    // .then((response) => response.json())
+    // .then((data) => {
+        // console.log(data);
+    // }); 
+
+
+
+//Retrieve all events of a specific user - TODO NOt working yet!!
+const params = new URLSearchParams({
+    'UserId': '00000',
+});
+const apiUrl = `http://localhost:3000/eventsByUser?${params}`;
+fetch(apiUrl)
+    .then((response) => response.json())
+    .then((data) => {
+        console.log(data);
+    }).catch(error => {
+		console.log(error);
+  });
+  
+  
+
+//Add new event
+// fetch('http://localhost:3000/newevent', {
+    // method: 'POST',
+    // headers: {
+        // 'Content-Type': 'application/json'
+    // },
+    // body: JSON.stringify({
+        // dummy
+    // })
 // });
 
-fetch('http://localhost:3000/newevent', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        dummy
-    })
-});
+
+
+
+
+
+//UTILS:
+function PrintJson(obj) {
+    console.log(JSON.stringify(obj, null, 2));
+}
