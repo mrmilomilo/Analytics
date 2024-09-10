@@ -25,7 +25,7 @@ app.get("/status", (request, response) => {
 		response.send(resp);
 });
 
-//list all events in json
+//list all events in json - ok
 app.get("/events", (request, response) => {
 	console.log("printing entire db...");
 	
@@ -42,9 +42,10 @@ app.get("/events", (request, response) => {
   });
 });
 
+//get all events associated to one user - ok 
 app.get("/eventsByUser/:UserId", (req, res) => {
 	const {UserId} = req.params;
-	console.log("printing events with UserID: " );
+	console.log("/eventsByUser/:UserId/" + [UserId] );
 	
 	
 	db.get('SELECT * FROM Events WHERE UserId = ?', [UserId], (err, row) => {
@@ -52,7 +53,9 @@ app.get("/eventsByUser/:UserId", (req, res) => {
 		  console.error(err.message);
 		  res.status(500).send('Error while querying db');
 		} else if (!row) {
-		  res.status(404).send('UserId not found');
+		  console.log('UserId not found');
+		  var NotFound = { Message: "UserId not found" }
+		  res.send(NotFound);
 		} else {
 		  res.send(row);
 		}
@@ -61,12 +64,29 @@ app.get("/eventsByUser/:UserId", (req, res) => {
 });
 
 
-
+//save new event into db - ok
 app.post("/newevent", (req,res) => {
-
-	PrintJson(req.body);
+	console.log("Received new event:");
 	
-	res.send("new event saved");
+	var e = req.body;
+	PrintJson(e);
+	
+	console.log('userid ' + e.NewEvent.UserId);
+	
+	//TODO: sanitize received data ?!
+
+	const sql = 'INSERT INTO [Events] ([UserId],[EventName],[EventTags],[TimeStamp],[Data],[Location.x],[Location.y],[Location.z], [Rotation.roll],[Rotation.pitch],[Rotation.yaw]) VALUES ' + '(?,?,?,?,?,?,?,?,?,?,?)';
+	db.run(sql, [e.NewEvent.UserId,e.NewEvent.EventName,e.NewEvent.EventTags, e.NewEvent.TimeStamp, e.NewEvent.Data, e.NewEvent.Location.x, e.NewEvent.Location.y, e.NewEvent.Location.z, e.NewEvent.Rotation.roll, e.NewEvent.Rotation.pitch, e.NewEvent.Rotation.yaw], function(err) {
+		if (err) {
+			var InsError = {Message:"Insert failed"}
+			res.send(InsError);
+			return console.log(err.message);
+		}
+		
+		var InsSuccess = {Message: "Event recorded!"}
+		console.log('Event recorded!');
+	});
+	
 });
 
 
