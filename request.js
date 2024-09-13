@@ -2,6 +2,7 @@ var request = require('request');
 
 //dummy event - will be gen by UE later
 /* EventTags: Progression, SessionStart, Design, Error, Business,... */
+//SessionId = UserId + DateTimeGMT
 var NewEvent = {
 	UserId: "2",
 	EventName: "Evento3",
@@ -17,7 +18,8 @@ var NewEvent = {
 		roll: 90.0,
 		pitch: 60.0,
 		yaw: 30.0
-	}
+	},
+	SessionID: "2_20240914_2258"
 }
 
 

@@ -64,6 +64,28 @@ app.get("/eventsByUser/:UserId", (req, res) => {
 });
 
 
+//get all events associated to one user - ok 
+app.get("/eventsByUser/:UserId", (req, res) => {
+	const {UserId} = req.params;
+	console.log("/eventsByUser/:UserId/" + [UserId] );
+	
+	
+	db.get('SELECT * FROM Events WHERE UserId = ?', [UserId], (err, row) => {
+		if (err) {
+		  console.error(err.message);
+		  res.status(500).send('Error while querying db');
+		} else if (!row) {
+		  console.log('UserId not found');
+		  var NotFound = { Message: "UserId not found" }
+		  res.send(NotFound);
+		} else {
+		  res.send(row);
+		}
+	});
+	
+});
+
+
 //save new event into db - ok
 app.post("/newevent", (req,res) => {
 	console.log("Received new event:");
