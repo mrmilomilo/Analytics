@@ -92,7 +92,7 @@ app.post("/newevent", (req,res) => {
 	
 	var e = req.body;
 	PrintJson(e);
-	
+
 	console.log('userid ' + e.NewEvent.UserId);
 	
 	//TODO: sanitize received data ?!
