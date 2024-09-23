@@ -97,8 +97,8 @@ app.post("/newevent", (req,res) => {
 	
 	//TODO: sanitize received data ?!
 
-	const sql = 'INSERT INTO [Events] ([UserId],[EventName],[EventTags],[TimeStamp],[Data],[Location.x],[Location.y],[Location.z], [Rotation.roll],[Rotation.pitch],[Rotation.yaw]) VALUES ' + '(?,?,?,?,?,?,?,?,?,?,?)';
-	db.run(sql, [e.NewEvent.UserId,e.NewEvent.EventName,e.NewEvent.EventTags, e.NewEvent.TimeStamp, e.NewEvent.Data, e.NewEvent.Location.x, e.NewEvent.Location.y, e.NewEvent.Location.z, e.NewEvent.Rotation.roll, e.NewEvent.Rotation.pitch, e.NewEvent.Rotation.yaw], function(err) {
+	const sql = 'INSERT INTO [Events] ([UserId],[EventName],[EventTags],[TimeStamp],[Data],[Location.x],[Location.y],[Location.z], [Rotation.roll],[Rotation.pitch],[Rotation.yaw], [SessionId]) VALUES ' + '(?,?,?,?,?,?,?,?,?,?,?,?)';
+	db.run(sql, [e.NewEvent.UserId,e.NewEvent.EventName,e.NewEvent.EventTags, e.NewEvent.TimeStamp, e.NewEvent.Data, e.NewEvent.Location.x, e.NewEvent.Location.y, e.NewEvent.Location.z, e.NewEvent.Rotation.roll, e.NewEvent.Rotation.pitch, e.NewEvent.Rotation.yaw, e.NewEvent.SessionId], function(err) {
 		if (err) {
 			var InsError = {Message:"Insert failed"}
 			res.send(InsError);
